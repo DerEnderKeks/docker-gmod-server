@@ -1,0 +1,12 @@
+[Unit]
+Description=Garry's Mod
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/local/bin/docker-compose -f /opt/gmod/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /opt/gmod/docker-compose.yml stop
+
+[Install]
+WantedBy=multi-user.target

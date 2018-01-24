@@ -7,7 +7,6 @@ services:
     volumes:
      - "./server:/gmod-volume"
     environment:
-     - UNION=true
      - PORT="27015"
      - MAXPLAYERS="16"
      - SERVERNAME="Garry's Mod"

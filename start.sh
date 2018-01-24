@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
 
+# Check if some can't read and tried to execute this script outside of Docker
 if [ "$ISDOCKER" != "true" ]; then
   echo "This script is executed inside the Docker container and shouldn't be used on the host system..."
   exit 1
 fi
 
-function startServer {
-  "$1/srcds_run" -game garrysmod -norestart -port ${PORT} +maxplayers ${MAXPLAYERS} +hostname "${SERVERNAME}" +gamemode ${GAMEMODE} "${ARGS}" +map ${MAP}
-}
+# Mount UnionFS
+unionfs-fuse -o cow /gmod-volume=RW:/gmod-base=RO /gmod-union
 
-if [ -n "$UNION" ]; then
-  unionfs-fuse -o cow -o allow_other /gmod-volume=RW:/gmod-base=RO /gmod-union
-  startServer("/gmod-union")
-else
-  startServer("/gmod-base")
-fi
+# Start Server
+/gmod-union/srcds_run -game garrysmod -norestart -port ${PORT} +maxplayers ${MAXPLAYERS} +hostname "${SERVERNAME}" +gamemode ${GAMEMODE} "${ARGS}" +map ${MAP}
