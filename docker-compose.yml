@@ -1,0 +1,16 @@
+version: '3'
+services:
+  gmod:
+    build: .
+    ports:
+     - "27015:27015/udp"
+    volumes:
+     - "./server:/gmod-volume"
+    environment:
+     - UNION=true
+     - PORT="27015"
+     - MAXPLAYERS="16"
+     - SERVERNAME="Garry's Mod"
+     - GAMEMODE="sandbox"
+     - MAP="gm_flatgrass"
+    privileged: true
