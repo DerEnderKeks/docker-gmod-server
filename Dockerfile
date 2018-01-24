@@ -18,7 +18,6 @@ VOLUME /gmod-volume
 RUN mkdir /steamcmd
 WORKDIR /steamcmd
 RUN curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar xz
-RUN cp /steamcmd/linux32/libstdc++.so.6 /gmod-base/bin/
 
 # Create gmod user and group and adjust file ownership
 RUN groupadd gmod && useradd -m -g gmod -s /bin/bash gmod
@@ -35,6 +34,7 @@ RUN /steamcmd/steamcmd.sh +login anonymous +force_install_dir /gmod-base +app_up
 RUN mkdir /gmod-extras/css && /steamcmd/steamcmd.sh +login anonymous +force_install_dir /gmod-extras/css +app_update 232330 validate +quit
 
 WORKDIR /
+RUN cp /steamcmd/linux32/libstdc++.so.6 /gmod-base/bin/
 
 ADD start.sh /
 EXPOSE 27015/udp
